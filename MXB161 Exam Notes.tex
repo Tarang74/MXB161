@@ -1,0 +1,204 @@
+\documentclass{article}
+\usepackage{template}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{multicol}
+\usepackage{textcomp, upquote}
+\usepackage{changepage} % Modify page width
+
+\geometry{
+	a4paper,
+	margin = 10mm
+}
+
+\pagestyle{fancy}
+\setlength\headheight{24pt}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+\lstset{language=Matlab, upquote=true}
+\lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad}}
+
+\section*{Random Numbers}
+Let $M$, $N$ and $P$ define a $M\times N\times P$ array.
+\begin{lstlisting}
+rand([M, N, P], 'datatype')    % uniformly distributed random numbers between 0 & 1
+randn([M, N, P], 'datatype')   % normally distributed random numbers
+\end{lstlisting}
+Random numbers between a \& b
+\begin{lstlisting}
+rand([M, N, P]) * (b - a) + a  % uniformly distributed random numbers
+randn([M, N, P]) * (b - a) + a % normally distributed random numbers
+randi([a, b], [M, N, P])       % uniformly distributed random integers
+\end{lstlisting}
+\section*{Data Types}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c | c | c}
+        \toprule
+        \textbf{Name} & \textbf{Description} & \textbf{Range} \\
+        \midrule
+        \lstinline!logical! & boolean values                   & \lstinline!0 & 1! \\
+        \lstinline!uint8!   & unsigned 8-bit integers          & \lstinline!0 ... 2^8! \\
+        \lstinline!int8!    & unsigned 8-bit integers          & \lstinline!-2^8 ... 2^8! \\
+        \lstinline!single!  & single precision ``real" numbers & \lstinline!-realmax ... realmax! \\
+        \lstinline!double!  & double precision ``real" numbers & \lstinline!-realmax ... realmax! \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+(un)signed 16, 32, 64-bit storage for integer data is created by appending the size to ``(u)int''.
+\section*{Operators and Special Characters}
+\subsection*{Arithmetic Operators}
+MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinline!*!, \lstinline!/!, \lstinline!^!.
+
+\noindent For element-wise operations, prepend the mathematical operator with a dot (\lstinline!.!).
+\begin{multicols}{2}
+    \subsection*{Relational Operators}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c | c}
+            \toprule
+            \textbf{Symbol} & \textbf{Role} \\
+            \midrule
+            \lstinline!==! & Equal to \\
+            \lstinline!~=! & Not equal to \\
+            \lstinline!>!  & Greater than \\
+            \lstinline!>=! & Greater than or equal to \\
+            \lstinline!<!  & Less than \\
+            \lstinline!<=! & Less than or equal to \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    \columnbreak
+    \subsection*{Logical Operators}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c | c}
+            \toprule
+            \textbf{Symbol} & \textbf{Role} \\
+            \midrule
+            \lstinline!&! & logical \lstinline!AND! \\
+            \lstinline!|! & logical \lstinline!OR! \\
+            \lstinline!~! & logical \lstinline!NOT! \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+\end{multicols}
+\subsection*{Special Characters}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c | c}
+        \toprule
+        \textbf{Symbol} & \textbf{Role} \\
+        \midrule
+        \lstinline!,!   & Separator for row elements \\
+        \lstinline!:!   & Index all subscripts in array dimension; create unit-spaced vector \\
+        \lstinline!;!   & Separator for column elements; suppress output \\
+        \lstinline!( )! & Operator precedence \\
+        \lstinline![ ]! & Array creation, multiple output argument assignment \\
+        \lstinline!%!   & Comment \\
+        \lstinline!""!  & String constructor \\
+        \lstinline!~!   & Argument placeholder (suppress specific output) \\
+        \lstinline!=!   & Assignment \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\section*{Special Arrays}
+\begin{lstlisting}
+zeros(M, N) % zero array
+false(M, N) % logical false array
+\end{lstlisting}
+\section*{Array Comparisons}
+\begin{lstlisting}
+A = rand(M, N); % random array
+mask = A > 0.5; % logical array, true if: >0.5 and false if: <=0.5
+\end{lstlisting}
+\section*{Other Functions}
+\begin{lstlisting}
+who                     % list workspace variables  
+who -file <mat file>    % list variables in .mat file 
+pause(x)                % pause procedure for x seconds 
+\end{lstlisting}
+\section*{Image Processing}
+\subsection*{Finding Area}
+\begin{lstlisting}
+f = figure;                                          % create a figure object
+imshow('file.png');                                  % display image 
+p = drawpolygon(f.Children);                         % trace polygon on image
+cP = p.Position;                                     % n by 2 array of (x, y) coordinates
+areaPxSquared = polyarea(cP(:, 1), cP(:, 2));        % area [px^2]
+l = drawline(f.Children);                            % trace scale bar on image
+cL = l.Position;                                     % 2 by 2 array of (x, y) coordinates
+scalePx = sqrt((cL(2, 1) - cL(1, 1))^2 + ...
+               (cL(2, 2) - cL(1, 2))^2);             % scale length [px]
+mPerPx = actualScaleLength / scalePx;                % [m] per [px]
+mSquaredPerPxSquared = mPerPx^2;                     % [m^2] per [px^2]
+areaMSquared = mSquaredPerPxSquared * areaPxSquared; % area [m^2]
+\end{lstlisting}
+\subsection*{Geolocation}
+\begin{lstlisting}
+longitudes = [...];                                         % e.g. 153.02
+latitudes = [...];                                          % e.g. -27.46
+origin = [mean(longitudes), mean(latitudes)];               % arbitrary origin
+radius = 6373.6;                                            % radius of Earth
+circumference = 2 * pi * radius;                            % circumference of Earth
+kmPerDegLatitude = circumference / 360;
+kmPerDegLongitude = kmPerDegLatitude * cos(deg2rad(-27.5)); % near Brisbane
+x = (longitudes - origin(1)) * kmPerDegLongitude;           % x coordinates
+y = (latitudes - origin(2)) * kmPerDegLatitude;             % y coordinates
+\end{lstlisting}
+\section*{Images from Arrays}
+\begin{lstlisting}
+imshow(A)   % Display image
+image(A)    % Display image, recommended if combining with other plots
+\end{lstlisting}
+\subsection*{Random Images}
+\begin{lstlisting}
+randi([0, 255], M, N, 'uint8');     % greyscale image
+randi([0, 255], M, N, 3, 'uint8');  % colour image
+\end{lstlisting}
+\subsection*{Creating Colour Images by Modifying Array Entries}
+\begin{lstlisting}
+A = 255 * zeros(M, N, 3, 'uint8');  % black image
+A = 255 * ones(M, N, 3, 'uint8');   % white image
+% Access individual channels
+rMask = A(:, :, 1);     % red channel
+gMask = A(:, :, 2);     % green channel
+bMask = A(:, :, 3);     % blue channel
+% Access specific region and change its colour to rgb(r, g, b)
+A(a:b, c:d, 1) = r;     % modify red value of (a:b, c:d)
+A(a:b, c:d, 2) = g;     % modify green value of (a:b, c:d)
+A(a:b, c:d, 3) = b;     % modify blue value of (a:b, c:d)
+\end{lstlisting}
+\subsection*{Editing an Image}
+\begin{lstlisting}
+theImage = imread('image.png');     % access image 
+% Mask a colour range to be modified
+mask = theImage(:, :, 1) > r & theImage(:, :, 2) > g & theImage(:, :, 3) > b;
+\end{lstlisting}
+\subsection*{Create and Save an Animation}
+\begin{lstlisting}
+f = figure;
+set(f, 'Visible', 'on');
+video = VideoWriter('video.avi');   % create video object; write to video.avi
+x = [...];                          % x values
+y = [...];                          % y values
+p = plot(x(1), y(1));               % create plot object
+for i = 1:length(x)
+    % Update plot object data
+    p.XData = x(i);
+    p.YData = y(i);
+    hold on;                        % use if previous points should remain on figure
+    drawnow;                        % update figure
+    frame = getFrame;               % get snapshot of current axes
+    writeVideo(video, frame)        % write frame to video
+end
+hold off                            % use if hold on was used
+close(video);                       % close the file
+\end{lstlisting}    
+\section*{Sound Processing}
+\begin{lstlisting}
+f = 523.251
+\end{lstlisting}
+\end{document}
