@@ -2,11 +2,10 @@
 \usepackage{template}
 
 \usepackage[T1]{fontenc}
-
+\usepackage{titlesec}
 \usepackage{multicol}
 \usepackage{textcomp, upquote}
 \usepackage{changepage} % Modify page width
-
 \geometry{
 	a4paper,
 	margin = 10mm
@@ -16,9 +15,16 @@
 \setlength\headheight{24pt}
 \renewcommand{\headrulewidth}{0pt}
 
+\titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
+\titlespacing*{\subsection}{0pt}{0\baselineskip}{0\baselineskip}
+
 \begin{document}
 \lstset{language=Matlab, upquote=true}
-\lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad}}
+\lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad, soundsc, resample, audiowrite, }}
+
+\lstset{
+    basicstyle = \ttfamily, columns = fullflexible, keepspaces = true
+}
 
 \section*{Random Numbers}
 Let $M$, $N$ and $P$ define a $M\times N\times P$ array.
@@ -198,7 +204,47 @@ hold off                            % use if hold on was used
 close(video);                       % close the file
 \end{lstlisting}    
 \section*{Sound Processing}
+Create pure tone
 \begin{lstlisting}
-f = 523.251
+f = 523.251;                % frequency of note
+Fs = 8192;                  % sampling rate
+l = 1;                      % length of tone [s]
+t = 0: 1 / Fs : l;          % vector of evenly-spaced times to sample at
+y = sin(2 * pi * f * t);    % sine wave sampled at t
+\end{lstlisting}
+Processing sounds
+\begin{lstlisting}
+[y1 + y2]                       % combine y1 and y2 (must be the same dimension)
+[y1; y2]                        % append y2 after y1
+soundsc(y, Fs)                  % play sound 
+resample(y, Fs, Q)              % resample sound at the new sampling rate: Fs / Q
+Fs / 2                          % half speed
+Fs * 2                          % double speed
+audiowrite('audio.wav', y, Fs)  % write sound to audio.wav
+\end{lstlisting}
+Let $y$ be a column vector
+\begin{lstlisting}
+duration = length(y) / Fs;                  % duration of sound [s]
+% time vector using two different methods
+t = 0 : 1 / Fs : duration;                  % using the colon operator
+t = linspace(0, duration, length(y) + 1);   % using the linspace function
+\end{lstlisting}
+\section*{Random Walks}
+\subsection*{Initialisation}
+\begin{lstlisting}
+M = 10000;
+N = 200;
+delta = 1;
+p = 0.5;
+x = zeros(N + 1, M);
+for i = 1:N
+    r = rand(1, M);
+    leftMask = r < p;
+    x(i + 1, leftMask) = x(i, leftMask) - delta;
+    x(i + 1, ~leftMask) = x(i, ~leftMask) + delta;
+end
+f = figure;
+plot(x, '.-');
+
 \end{lstlisting}
 \end{document}
