@@ -48,8 +48,8 @@ randi([a, b], [M, N, P])       % uniformly distributed random integers
         \lstinline!logical! & boolean values                   & \lstinline!0 & 1! \\
         \lstinline!uint8!   & unsigned 8-bit integers          & \lstinline!0 ... 2^8! \\
         \lstinline!int8!    & unsigned 8-bit integers          & \lstinline!-2^8 ... 2^8! \\
-        \lstinline!single!  & single precision ``real" numbers & \lstinline!-realmax ... realmax! \\
-        \lstinline!double!  & double precision ``real" numbers & \lstinline!-realmax ... realmax! \\
+        \lstinline!single!  & single precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
+        \lstinline!double!  & double precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -118,7 +118,7 @@ false(M, N) % logical false array
 \section*{Array Comparisons}
 \begin{lstlisting}
 A = rand(M, N); % random array
-mask = A > 0.5; % logical array, true if: >0.5 and false if: <=0.5
+mask = A > 0.5; % logical array, true (1) if: >0.5 and false (0) if: <=0.5
 \end{lstlisting}
 \section*{Other Functions}
 \begin{lstlisting}
@@ -131,10 +131,10 @@ pause(x)                % pause procedure for x seconds
 \begin{lstlisting}
 f = figure;                                          % create a figure object
 imshow('file.png');                                  % display image 
-p = drawpolygon(f.Children);                         % trace polygon on image
+p = drawpolygon(f.Children)                          % trace polygon on image
 cP = p.Position;                                     % n by 2 array of (x, y) coordinates
 areaPxSquared = polyarea(cP(:, 1), cP(:, 2));        % area [px^2]
-l = drawline(f.Children);                            % trace scale bar on image
+l = drawline(f.Children)                             % trace scale bar on image
 cL = l.Position;                                     % 2 by 2 array of (x, y) coordinates
 scalePx = sqrt((cL(2, 1) - cL(1, 1))^2 + ...
                (cL(2, 2) - cL(1, 2))^2);             % scale length [px]
@@ -149,10 +149,11 @@ latitudes = [...];                                          % e.g. -27.46
 origin = [mean(longitudes), mean(latitudes)];               % arbitrary origin
 radius = 6373.6;                                            % radius of Earth
 circumference = 2 * pi * radius;                            % circumference of Earth
-kmPerDegLatitude = circumference / 360;
+kmPerDegLatitude = circumference / 360;                     
 kmPerDegLongitude = kmPerDegLatitude * cos(deg2rad(-27.5)); % near Brisbane
 x = (longitudes - origin(1)) * kmPerDegLongitude;           % x coordinates
 y = (latitudes - origin(2)) * kmPerDegLatitude;             % y coordinates
+plot(x, y, '.');                                            % plot locations
 \end{lstlisting}
 \section*{Images from Arrays}
 \begin{lstlisting}
@@ -169,29 +170,37 @@ randi([0, 255], M, N, 3, 'uint8');  % colour image
 A = 255 * zeros(M, N, 3, 'uint8');  % black image
 A = 255 * ones(M, N, 3, 'uint8');   % white image
 % Access individual channels
-rMask = A(:, :, 1);     % red channel
-gMask = A(:, :, 2);     % green channel
-bMask = A(:, :, 3);     % blue channel
+rMask = A(:, :, 1);                 % red channel
+gMask = A(:, :, 2);                 % green channel
+bMask = A(:, :, 3);                 % blue channel
 % Access specific region and change its colour to rgb(r, g, b)
-A(a:b, c:d, 1) = r;     % modify red value of (a:b, c:d)
-A(a:b, c:d, 2) = g;     % modify green value of (a:b, c:d)
-A(a:b, c:d, 3) = b;     % modify blue value of (a:b, c:d)
+A(x1:x2, y1:y2, 1) = r;             % modify red value of (x1:x2, y1:y2)
+A(x1:x2, y1:y2, 2) = g;             % modify green value of (x1:x2, y1:y2)
+A(x1:x2, y1:y2, 3) = b;             % modify blue value of (x1:x2, y1:y2)
 \end{lstlisting}
-\subsection*{Editing an Image}
+\subsection*{Editing an Image from a File}
 \begin{lstlisting}
 theImage = imread('image.png');     % access image 
 % Mask a colour range to be modified
 mask = theImage(:, :, 1) > r & theImage(:, :, 2) > g & theImage(:, :, 3) > b;
+% Modify channels of selected colour range - accessing individual channels shown in previous section
+rMask(mask) = rNew;                 % modify red value in masked image
+gMask(mask) = gNew;                 % modify green value in masked image
+bMask(mask) = bNew;                 % modify blue value in masked image
+theNewImage(:, :, 1) = rMask;       % assign red mask to new array 
+theNewImage(:, :, 2) = gMask;       % assign green mask to new array
+theNewImage(:, :, 3) = bMask;       % assign blue mask to new array
 \end{lstlisting}
 \subsection*{Create and Save an Animation}
 \begin{lstlisting}
 f = figure;
 set(f, 'Visible', 'on');
-video = VideoWriter('video.avi');   % create video object; write to video.avi
+video = VideoWriter('video.avi');   % create video object
+open(video);                        % open video for write access
 x = [...];                          % x values
 y = [...];                          % y values
 p = plot(x(1), y(1));               % create plot object
-for i = 1:length(x)
+for i = 1:length(x)                 % iterate through each frame
     % Update plot object data
     p.XData = x(i);
     p.YData = y(i);
@@ -204,47 +213,98 @@ hold off                            % use if hold on was used
 close(video);                       % close the file
 \end{lstlisting}    
 \section*{Sound Processing}
-Create pure tone
+\subsection*{Create pure tone}
 \begin{lstlisting}
-f = 523.251;                % frequency of note
-Fs = 8192;                  % sampling rate
-l = 1;                      % length of tone [s]
-t = 0: 1 / Fs : l;          % vector of evenly-spaced times to sample at
-y = sin(2 * pi * f * t);    % sine wave sampled at t
+f = 523.251;                        % frequency of note
+Fs = 8192;                          % sampling rate
+l = 1;                              % length of tone [s]
+t = 0: 1 / Fs : l;                  % vector of evenly-spaced times to sample at
+y = sin(2 * pi * f * t);            % sine wave sampled at t
 \end{lstlisting}
-Processing sounds
+\subsection*{Processing sounds}
 \begin{lstlisting}
-[y1 + y2]                       % combine y1 and y2 (must be the same dimension)
-[y1; y2]                        % append y2 after y1
-soundsc(y, Fs)                  % play sound 
-resample(y, Fs, Q)              % resample sound at the new sampling rate: Fs / Q
-Fs / 2                          % half speed
-Fs * 2                          % double speed
-audiowrite('audio.wav', y, Fs)  % write sound to audio.wav
+[y1 + y2]                           % combine y1 and y2 (must be the same dimension)
+[y1; y2]                            % append y2 after y1
+soundsc(y, Fs)                      % play sound 
+resample(y, Fs, Q)                  % resample sound at the new sampling rate: Fs / Q
+Fs / 2                              % half speed
+Fs * 2                              % double speed
+audiowrite('audio.wav', y, Fs)      % write sound to audio.wav
 \end{lstlisting}
 Let $y$ be a column vector
 \begin{lstlisting}
 duration = length(y) / Fs;                  % duration of sound [s]
-% time vector using two different methods
+% equivalent methods for defining a time vector
 t = 0 : 1 / Fs : duration;                  % using the colon operator
 t = linspace(0, duration, length(y) + 1);   % using the linspace function
 \end{lstlisting}
 \section*{Random Walks}
 \subsection*{Initialisation}
 \begin{lstlisting}
-M = 10000;
-N = 200;
-delta = 1;
-p = 0.5;
-x = zeros(N + 1, M);
-for i = 1:N
-    r = rand(1, M);
-    leftMask = r < p;
-    x(i + 1, leftMask) = x(i, leftMask) - delta;
-    x(i + 1, ~leftMask) = x(i, ~leftMask) + delta;
+M = 50;                                             % number of particles
+N = 200;                                            % number of steps
+delta = 1;                                          % size of step
+p = 0.5;                                            % probability of jumping left
+A = zeros(N + 1, M);                                % initialise particles at zero
+for i = 1:N                                         % iterate through each step
+    r = rand(1, M);                                 % random probability for each particle
+    leftMask = r < p;                               % mask left-moving particles
+    A(i + 1, leftMask) = A(i, leftMask) - delta;    % move leftMask left    
+    A(i + 1, ~leftMask) = A(i, ~leftMask) + delta;  % move ~leftMask right
 end
-f = figure;
-plot(x, '.-');
-
+\end{lstlisting}
+Animated Step vs Position Plot
+\begin{lstlisting}
+p = plot(A(1:2, :), '.-');                  % create plot object
+L = max(abs(A(:)));                         % maximum distance reached
+axis([0 N -L L]);                           % set axis bounds
+for i = 1:N                                 % iterate through each step
+    for j = 1:M                             % iterate through each particle
+        p(j).YData = A(1:i, j);             % update plot object data
+        hold on                             % hold until all particles trees have been plotted 
+    end
+    hold off                                % hold off for next iteration
+    drawnow                                 % update figure
+end
+\end{lstlisting}
+1D Animated Position Plot
+\begin{lstlisting}
+p = plot(A(1, :), zeros(1, M), '.');        % create plot object
+L = max(abs(A(:)));                         % maximum distance reached
+axis([-L L -1 1]);                          % set axis bounds
+for i = 1:N                                 % iterate through each step
+    p.XData = A(i, :);                      % update plot object data
+    drawnow                                 % update figure
+end
+\end{lstlisting}
+\section*{Cellular Automata}
+\begin{lstlisting}
+C = 100;                                        % number of cells
+N = 50;                                         % number of steps
+A = false(N + 1, C);                            % initialise all positions to be empty
+A(1, :) = rand(1, C) > 0.5;                     % use random initial state
+% Manually define initial state using an explicit assignment
+A(1, :) = [...];                                % length of row vector must be C
+for i = 1:N                                     % iterate through each step
+    P = A(i, :)                                 % centre cells
+    % Wrap-around ghost boundary cell 
+    L = [P(C), P(1:C - 1)];
+    R = [P(2:C), P(1)];
+    % Dead boundary cell
+    L = [0, P(1:C - 1)];
+    R = [P(2:C), 0];
+    % List of all 1D configurations
+    C000 = (L == 0 & P == 0 & R == 0);
+    C001 = (L == 0 & P == 0 & R == 1);
+    C010 = (L == 0 & P == 1 & R == 0);
+    C011 = (L == 0 & P == 1 & R == 1);
+    C100 = (L == 1 & P == 0 & R == 0);
+    C101 = (L == 1 & P == 0 & R == 1);
+    C110 = (L == 1 & P == 1 & R == 0);
+    C111 = (L == 1 & P == 1 & R == 1);
+    liveMask = C000 | ... | ...;                % cellular automation rule(s)
+    A(i + 1, liveMask) = 1;                     % set live cells for next generation
+end
+imshow(~A, 'InitialMagnification', 'Fit');      % Display black live cells
 \end{lstlisting}
 \end{document}
