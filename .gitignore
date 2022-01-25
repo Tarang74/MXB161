@@ -8,6 +8,6 @@
 *.synctex(busy)
 *.synctex.gz
 *.toc
-*.vscode
 *.xdv
+*.vscode
 *.zip
