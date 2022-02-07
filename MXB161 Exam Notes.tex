@@ -2,31 +2,29 @@
 \documentclass{article}
 \usepackage{LaTeX-Submodule/template}
 
-\usepackage[T1]{fontenc}
-\usepackage{titlesec}
-\usepackage{multicol}
-\usepackage{textcomp, upquote}
+% Additional packages and macros
 \usepackage{changepage} % Modify page width
+\usepackage{multicol} % Use multiple columns
+\usepackage{titlesec} % Modify section heading styles
+\usepackage{textcomp, upquote}
+
+%% A4 page
 \geometry{
 	a4paper,
 	margin = 10mm
 }
 
-\pagestyle{fancy}
-\setlength\headheight{24pt}
+%% Hide horizontal rule
 \renewcommand{\headrulewidth}{0pt}
 
+% Modify spacing
 \titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
 \titlespacing*{\subsection}{0pt}{0\baselineskip}{0\baselineskip}
 
 \begin{document}
 \lstset{language=Matlab, upquote=true}
 \lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad, soundsc, resample, audiowrite, }}
-
-\lstset{
-    basicstyle = \ttfamily, columns = fullflexible, keepspaces = true
-}
-
+%
 \section*{Random Numbers}
 Let $M$, $N$ and $P$ define a $M\times N\times P$ array.
 \begin{lstlisting}
@@ -44,11 +42,11 @@ randi([a, b], [M, N, P])       % uniformly distributed random integers
     \centering
     \begin{tabular}{c | c | c}
         \toprule
-        \textbf{Name} & \textbf{Description} & \textbf{Range} \\
+        \textbf{Name}       & \textbf{Description}              & \textbf{Range}                   \\
         \midrule
-        \lstinline!logical! & boolean values                   & \lstinline!0 & 1! \\
-        \lstinline!uint8!   & unsigned 8-bit integers          & \lstinline!0 ... 2^8! \\
-        \lstinline!int8!    & unsigned 8-bit integers          & \lstinline!-2^8 ... 2^8! \\
+        \lstinline!logical! & boolean values                    & \lstinline!0 & 1!                \\
+        \lstinline!uint8!   & unsigned 8-bit integers           & \lstinline!0 ... 2^8!            \\
+        \lstinline!int8!    & unsigned 8-bit integers           & \lstinline!-2^8 ... 2^8!         \\
         \lstinline!single!  & single precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
         \lstinline!double!  & double precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
         \bottomrule
@@ -66,14 +64,14 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
         \centering
         \begin{tabular}{c | c}
             \toprule
-            \textbf{Symbol} & \textbf{Role} \\
+            \textbf{Symbol} & \textbf{Role}            \\
             \midrule
-            \lstinline!==! & Equal to \\
-            \lstinline!~=! & Not equal to \\
-            \lstinline!>!  & Greater than \\
-            \lstinline!>=! & Greater than or equal to \\
-            \lstinline!<!  & Less than \\
-            \lstinline!<=! & Less than or equal to \\
+            \lstinline!==!  & Equal to                 \\
+            \lstinline!~=!  & Not equal to             \\
+            \lstinline!>!   & Greater than             \\
+            \lstinline!>=!  & Greater than or equal to \\
+            \lstinline!<!   & Less than                \\
+            \lstinline!<=!  & Less than or equal to    \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -83,11 +81,11 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
         \centering
         \begin{tabular}{c | c}
             \toprule
-            \textbf{Symbol} & \textbf{Role} \\
+            \textbf{Symbol} & \textbf{Role}           \\
             \midrule
-            \lstinline!&! & logical \lstinline!AND! \\
-            \lstinline!|! & logical \lstinline!OR! \\
-            \lstinline!~! & logical \lstinline!NOT! \\
+            \lstinline!&!   & logical \lstinline!AND! \\
+            \lstinline!|!   & logical \lstinline!OR!  \\
+            \lstinline!~!   & logical \lstinline!NOT! \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -97,17 +95,17 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
     \centering
     \begin{tabular}{c | c}
         \toprule
-        \textbf{Symbol} & \textbf{Role} \\
+        \textbf{Symbol} & \textbf{Role}                                                      \\
         \midrule
-        \lstinline!,!   & Separator for row elements \\
+        \lstinline!,!   & Separator for row elements                                         \\
         \lstinline!:!   & Index all subscripts in array dimension; create unit-spaced vector \\
-        \lstinline!;!   & Separator for column elements; suppress output \\
-        \lstinline!( )! & Operator precedence \\
-        \lstinline![ ]! & Array creation, multiple output argument assignment \\
-        \lstinline!%!   & Comment \\
-        \lstinline!""!  & String constructor \\
-        \lstinline!~!   & Argument placeholder (suppress specific output) \\
-        \lstinline!=!   & Assignment \\
+        \lstinline!;!   & Separator for column elements; suppress output                     \\
+        \lstinline!( )! & Operator precedence                                                \\
+        \lstinline![ ]! & Array creation, multiple output argument assignment                \\
+        \lstinline!%!   & Comment                                                            \\
+        \lstinline!""!  & String constructor                                                 \\
+        \lstinline!~!   & Argument placeholder (suppress specific output)                    \\
+        \lstinline!=!   & Assignment                                                         \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -212,7 +210,7 @@ for i = 1:length(x)                 % iterate through each frame
 end
 hold off                            % use if hold on was used
 close(video);                       % close the file
-\end{lstlisting}    
+\end{lstlisting}
 \section*{Sound Processing}
 \subsection*{Create pure tone}
 \begin{lstlisting}
