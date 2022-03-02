@@ -40,7 +40,7 @@
 \lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad, soundsc, resample, audiowrite, }}
 %
 \section*{Random Numbers}
-Let $M$, $N$ and $P$ define a $M\times N\times P$ array.
+Let \(M\), \(N\) and \(P\) define a \(M\times N\times P\) array.
 \begin{lstlisting}
 rand([M, N, P], 'datatype')    % uniformly distributed random numbers between 0 & 1
 randn([M, N, P], 'datatype')   % normally distributed random numbers
@@ -54,15 +54,15 @@ randi([a, b], [M, N, P])       % uniformly distributed random integers
 \section*{Data Types}
 \begin{table}[H]
     \centering
-    \begin{tabular}{c | c | c}
+    \begin{tabular}{c c c}
         \toprule
         \textbf{Name}       & \textbf{Description}              & \textbf{Range}                   \\
         \midrule
         \lstinline!logical! & boolean values                    & \lstinline!0 & 1!                \\
-        \lstinline!uint8!   & unsigned 8-bit integers           & \lstinline!0 ... 2^8!            \\
-        \lstinline!int8!    & unsigned 8-bit integers           & \lstinline!-2^8 ... 2^8!         \\
-        \lstinline!single!  & single precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
-        \lstinline!double!  & double precision ``real'' numbers & \lstinline!-realmax ... realmax! \\
+        \lstinline!uint8!   & unsigned 8-bit integers           & \lstinline!0 ... 2^8!            \\ % chktex 11 % chktex 26
+        \lstinline!int8!    & unsigned 8-bit integers           & \lstinline!-2^8 ... 2^8!         \\ % chktex 11 % chktex 26
+        \lstinline!single!  & single precision ``real'' numbers & \lstinline!-realmax ... realmax! \\ % chktex 11 % chktex 26 % chktex 12
+        \lstinline!double!  & double precision ``real'' numbers & \lstinline!-realmax ... realmax! \\ % chktex 11 % chktex 26 % chktex 12
         \bottomrule
     \end{tabular}
 \end{table}
@@ -76,7 +76,7 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
     \subsection*{Relational Operators}
     \begin{table}[H]
         \centering
-        \begin{tabular}{c | c}
+        \begin{tabular}{c c}
             \toprule
             \textbf{Symbol} & \textbf{Role}            \\
             \midrule
@@ -93,13 +93,13 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
     \subsection*{Logical Operators}
     \begin{table}[H]
         \centering
-        \begin{tabular}{c | c}
+        \begin{tabular}{c c}
             \toprule
             \textbf{Symbol} & \textbf{Role}           \\
             \midrule
-            \lstinline!&!   & logical \lstinline!AND! \\
-            \lstinline!|!   & logical \lstinline!OR!  \\
-            \lstinline!~!   & logical \lstinline!NOT! \\
+            \lstinline!&!   & logical \lstinline!AND! \\ % % chktex 13
+            \lstinline!|!   & logical \lstinline!OR!  \\ % % chktex 13
+            \lstinline!~!   & logical \lstinline!NOT! \\ % % chktex 13
             \bottomrule
         \end{tabular}
     \end{table}
@@ -107,17 +107,17 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
 \subsection*{Special Characters}
 \begin{table}[H]
     \centering
-    \begin{tabular}{c | c}
+    \begin{tabular}{c c}
         \toprule
         \textbf{Symbol} & \textbf{Role}                                                      \\
         \midrule
         \lstinline!,!   & Separator for row elements                                         \\
         \lstinline!:!   & Index all subscripts in array dimension; create unit-spaced vector \\
         \lstinline!;!   & Separator for column elements; suppress output                     \\
-        \lstinline!( )! & Operator precedence                                                \\
+        \lstinline!( )! & Operator precedence                                                \\ % chktex 37
         \lstinline![ ]! & Array creation, multiple output argument assignment                \\
         \lstinline!%!   & Comment                                                            \\
-        \lstinline!""!  & String constructor                                                 \\
+        \lstinline!""!  & String constructor                                                 \\ % chktex 37 chktex 18
         \lstinline!~!   & Argument placeholder (suppress specific output)                    \\
         \lstinline!=!   & Assignment                                                         \\
         \bottomrule
@@ -244,7 +244,7 @@ Fs / 2                              % half speed
 Fs * 2                              % double speed
 audiowrite('audio.wav', y, Fs)      % write sound to audio.wav
 \end{lstlisting}
-Let $y$ be a column vector
+Let \(y\) be a column vector
 \begin{lstlisting}
 duration = length(y) / Fs;                  % duration of sound [s]
 % equivalent methods for defining a time vector
