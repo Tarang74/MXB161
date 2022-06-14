@@ -8,7 +8,7 @@
 
 ## Downloads
 
-Exam notes download: [MXB161 Exam Notes PDF](MXB161%20Exam%20Notes.pdf)
+Exam notes download: [MXB161 Exam Notes PDF](https://www.github.com/Tarang74/MXB161/raw/main/MXB161%20Exam%20Notes.pdf)
 
 ---
 
