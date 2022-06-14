@@ -1,6 +1,7 @@
-%!TEX program = xelatex
+%!TEX TS-program = xelatex
+%!TEX options = -aux-directory=Debug -shell-escape -file-line-error -interaction=nonstopmode -halt-on-error -synctex=1 "%DOC%"
 \documentclass{article}
-\usepackage{LaTeX-Submodule/template}
+\input{LaTeX-Submodule/template.tex}
 
 % Additional packages and macros
 \usepackage{changepage} % Modify page width
@@ -16,6 +17,9 @@
 
 %% Hide horizontal rule
 \renewcommand{\headrulewidth}{0pt}
+
+% Hide page numbers
+\pagenumbering{gobble}
 
 %% Modify spacing
 \titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
