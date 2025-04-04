@@ -7,7 +7,7 @@
 \usepackage{changepage} % Modify page width
 \usepackage{multicol} % Use multiple columns
 \usepackage{titlesec} % Modify section heading styles
-\usepackage{textcomp, upquote} % Code block quotations support 
+\usepackage{textcomp, upquote} % Code block quotations support
 
 %% A4 page
 \geometry{
@@ -40,56 +40,55 @@
 ]{doclicense}
 
 \begin{document}
-\lstset{language=Matlab, upquote=true}
-\lstset{morekeywords={randi, false, imshow, drawpolygon, polyarea, drawline, ones, imread, VideoWriter, XData, YData, getFrame, writeVideo, deg2rad, soundsc, resample, audiowrite, }}
-%
 \section*{Random Numbers}
 Let \(M\), \(N\) and \(P\) define a \(M\times N\times P\) array.
-\begin{lstlisting}
+\begin{minted}{matlab}
 rand([M, N, P], 'datatype')    % uniformly distributed random numbers between 0 & 1
 randn([M, N, P], 'datatype')   % normally distributed random numbers
-\end{lstlisting}
+\end{minted}
 Random numbers between a \& b
-\begin{lstlisting}
+\begin{minted}{matlab}
 rand([M, N, P]) * (b - a) + a  % uniformly distributed random numbers
 randn([M, N, P]) * (b - a) + a % normally distributed random numbers
 randi([a, b], [M, N, P])       % uniformly distributed random integers
-\end{lstlisting}
+\end{minted}
 \section*{Data Types}
 \begin{table}[H]
     \centering
     \begin{tabular}{c c c}
         \toprule
-        \textbf{Name}       & \textbf{Description}              & \textbf{Range}                   \\
+        \textbf{Name}                & \textbf{Description}              & \textbf{Range}                                 \\
         \midrule
-        \lstinline!logical! & boolean values                    & \lstinline!0 & 1!                \\
-        \lstinline!uint8!   & unsigned 8-bit integers           & \lstinline!0 ... 2^8!            \\ % chktex 11 % chktex 26
-        \lstinline!int8!    & unsigned 8-bit integers           & \lstinline!-2^8 ... 2^8!         \\ % chktex 11 % chktex 26
-        \lstinline!single!  & single precision ``real'' numbers & \lstinline!-realmax ... realmax! \\ % chktex 11 % chktex 26 % chktex 12
-        \lstinline!double!  & double precision ``real'' numbers & \lstinline!-realmax ... realmax! \\ % chktex 11 % chktex 26 % chktex 12
+        \mintinline{matlab}!logical! & boolean values                    & \mintinline{matlab}!0                     & 1! \\
+        \mintinline{matlab}!uint8!   & unsigned 8-bit integers           & \mintinline{matlab}!0 ... 2^8!                 \\
+        \mintinline{matlab}!int8!    & unsigned 8-bit integers           & \mintinline{matlab}!-2^8 ... 2^8!              \\
+        \mintinline{matlab}!single!  & single precision ``real'' numbers & \mintinline{matlab}!-realmax ... realmax!      \\
+        \mintinline{matlab}!double!  & double precision ``real'' numbers & \mintinline{matlab}!-realmax ... realmax!      \\
         \bottomrule
     \end{tabular}
 \end{table}
 (un)signed 16, 32, 64-bit storage for integer data is created by appending the size to ``(u)int''.
 \section*{Operators and Special Characters}
 \subsection*{Arithmetic Operators}
-MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinline!*!, \lstinline!/!, \lstinline!^!.
+MATLAB uses standard mathematical symbols: \mintinline{matlab}!+!,
+\mintinline{matlab}!-!, \mintinline{matlab}!*!, \mintinline{matlab}!/!,
+\mintinline{matlab}!^!.
 
-\noindent For element-wise operations, prepend the mathematical operator with a dot (\lstinline!.!).
+\noindent For element-wise operations, prepend the mathematical operator with a dot (\mintinline{matlab}!.!).
 \begin{multicols}{2}
     \subsection*{Relational Operators}
     \begin{table}[H]
         \centering
         \begin{tabular}{c c}
             \toprule
-            \textbf{Symbol} & \textbf{Role}            \\
+            \textbf{Symbol}         & \textbf{Role}            \\
             \midrule
-            \lstinline!==!  & Equal to                 \\
-            \lstinline!~=!  & Not equal to             \\
-            \lstinline!>!   & Greater than             \\
-            \lstinline!>=!  & Greater than or equal to \\
-            \lstinline!<!   & Less than                \\
-            \lstinline!<=!  & Less than or equal to    \\
+            \mintinline{matlab}!==! & Equal to                 \\
+            \mintinline{matlab}!~=! & Not equal to             \\
+            \mintinline{matlab}!>!  & Greater than             \\
+            \mintinline{matlab}!>=! & Greater than or equal to \\
+            \mintinline{matlab}!<!  & Less than                \\
+            \mintinline{matlab}!<=! & Less than or equal to    \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -99,11 +98,11 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
         \centering
         \begin{tabular}{c c}
             \toprule
-            \textbf{Symbol} & \textbf{Role}           \\
+            \textbf{Symbol}        & \textbf{Role}                                                       \\
             \midrule
-            \lstinline!&!   & logical \lstinline!AND! \\ % % chktex 13
-            \lstinline!|!   & logical \lstinline!OR!  \\ % % chktex 13
-            \lstinline!~!   & logical \lstinline!NOT! \\ % % chktex 13
+            \mintinline{matlab}!   & !                                & logical \mintinline{matlab}!AND! \\
+            \mintinline{matlab}!|! & logical \mintinline{matlab}!OR!                                     \\
+            \mintinline{matlab}!~! & logical \mintinline{matlab}!NOT!                                    \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -113,41 +112,41 @@ MATLAB uses standard mathematical symbols: \lstinline!+!, \lstinline!-!, \lstinl
     \centering
     \begin{tabular}{c c}
         \toprule
-        \textbf{Symbol} & \textbf{Role}                                                      \\
+        \textbf{Symbol}          & \textbf{Role}                                                      \\
         \midrule
-        \lstinline!,!   & Separator for row elements                                         \\
-        \lstinline!:!   & Index all subscripts in array dimension; create unit-spaced vector \\
-        \lstinline!;!   & Separator for column elements; suppress output                     \\
-        \lstinline!( )! & Operator precedence                                                \\ % chktex 37
-        \lstinline![ ]! & Array creation, multiple output argument assignment                \\
-        \lstinline!%!   & Comment                                                            \\
-        \lstinline!""!  & String constructor                                                 \\ % chktex 37 chktex 18
-        \lstinline!~!   & Argument placeholder (suppress specific output)                    \\
-        \lstinline!=!   & Assignment                                                         \\
+        \mintinline{matlab}!,!   & Separator for row elements                                         \\
+        \mintinline{matlab}!:!   & Index all subscripts in array dimension; create unit-spaced vector \\
+        \mintinline{matlab}!;!   & Separator for column elements; suppress output                     \\
+        \mintinline{matlab}!( )! & Operator precedence                                                \\
+        \mintinline{matlab}![ ]! & Array creation, multiple output argument assignment                \\
+        \mintinline{matlab}!%!   & Comment                                                            \\
+        \mintinline{matlab}!""!  & String constructor                                                 \\
+        \mintinline{matlab}!~!   & Argument placeholder (suppress specific output)                    \\
+        \mintinline{matlab}!=!   & Assignment                                                         \\
         \bottomrule
     \end{tabular}
 \end{table}
 \section*{Special Arrays}
-\begin{lstlisting}
+\begin{minted}{matlab}
 zeros(M, N) % zero array
 false(M, N) % logical false array
-\end{lstlisting}
+\end{minted}
 \section*{Array Comparisons}
-\begin{lstlisting}
+\begin{minted}{matlab}
 A = rand(M, N); % random array
 mask = A > 0.5; % logical array, true (1) if: >0.5 and false (0) if: <=0.5
-\end{lstlisting}
+\end{minted}
 \section*{Other Functions}
-\begin{lstlisting}
-who                     % list workspace variables  
-who -file <mat file>    % list variables in .mat file 
-pause(x)                % pause procedure for x seconds 
-\end{lstlisting}
+\begin{minted}{matlab}
+who                     % list workspace variables
+who -file <mat file>    % list variables in .mat file
+pause(x)                % pause procedure for x seconds
+\end{minted}
 \section*{Image Processing}
 \subsection*{Finding Area}
-\begin{lstlisting}
+\begin{minted}{matlab}
 f = figure;                                          % create a figure object
-imshow('file.png');                                  % display image 
+imshow('file.png');                                  % display image
 p = drawpolygon(f.Children)                          % trace polygon on image
 cP = p.Position;                                     % n by 2 array of (x, y) coordinates
 areaPxSquared = polyarea(cP(:, 1), cP(:, 2));        % area [px^2]
@@ -158,32 +157,32 @@ scalePx = sqrt((cL(2, 1) - cL(1, 1))^2 + ...
 mPerPx = actualScaleLength / scalePx;                % [m] per [px]
 mSquaredPerPxSquared = mPerPx^2;                     % [m^2] per [px^2]
 areaMSquared = mSquaredPerPxSquared * areaPxSquared; % area [m^2]
-\end{lstlisting}
+\end{minted}
 \subsection*{Geolocation}
-\begin{lstlisting}
+\begin{minted}{matlab}
 longitudes = [...];                                         % e.g. 153.02
 latitudes = [...];                                          % e.g. -27.46
 origin = [mean(longitudes), mean(latitudes)];               % arbitrary origin
 radius = 6373.6;                                            % radius of Earth
 circumference = 2 * pi * radius;                            % circumference of Earth
-kmPerDegLatitude = circumference / 360;                     
+kmPerDegLatitude = circumference / 360;
 kmPerDegLongitude = kmPerDegLatitude * cos(deg2rad(-27.5)); % near Brisbane
 x = (longitudes - origin(1)) * kmPerDegLongitude;           % x coordinates
 y = (latitudes - origin(2)) * kmPerDegLatitude;             % y coordinates
 plot(x, y, '.');                                            % plot locations
-\end{lstlisting}
+\end{minted}
 \section*{Images from Arrays}
-\begin{lstlisting}
+\begin{minted}{matlab}
 imshow(A)   % Display image
 image(A)    % Display image, recommended if combining with other plots
-\end{lstlisting}
+\end{minted}
 \subsection*{Random Images}
-\begin{lstlisting}
+\begin{minted}{matlab}
 randi([0, 255], M, N, 'uint8');     % greyscale image
 randi([0, 255], M, N, 3, 'uint8');  % colour image
-\end{lstlisting}
+\end{minted}
 \subsection*{Creating Colour Images by Modifying Array Entries}
-\begin{lstlisting}
+\begin{minted}{matlab}
 A = 255 * zeros(M, N, 3, 'uint8');  % black image
 A = 255 * ones(M, N, 3, 'uint8');   % white image
 % Access individual channels
@@ -194,22 +193,22 @@ bMask = A(:, :, 3);                 % blue channel
 A(x1:x2, y1:y2, 1) = r;             % modify red value of (x1:x2, y1:y2)
 A(x1:x2, y1:y2, 2) = g;             % modify green value of (x1:x2, y1:y2)
 A(x1:x2, y1:y2, 3) = b;             % modify blue value of (x1:x2, y1:y2)
-\end{lstlisting}
+\end{minted}
 \subsection*{Editing an Image from a File}
-\begin{lstlisting}
-theImage = imread('image.png');     % access image 
+\begin{minted}{matlab}
+theImage = imread('image.png');     % access image
 % Mask a colour range to be modified
 mask = theImage(:, :, 1) > r & theImage(:, :, 2) > g & theImage(:, :, 3) > b;
 % Modify channels of selected colour range - accessing individual channels shown in previous section
 rMask(mask) = rNew;                 % modify red value in masked image
 gMask(mask) = gNew;                 % modify green value in masked image
 bMask(mask) = bNew;                 % modify blue value in masked image
-theNewImage(:, :, 1) = rMask;       % assign red mask to new array 
+theNewImage(:, :, 1) = rMask;       % assign red mask to new array
 theNewImage(:, :, 2) = gMask;       % assign green mask to new array
 theNewImage(:, :, 3) = bMask;       % assign blue mask to new array
-\end{lstlisting}
+\end{minted}
 \subsection*{Create and Save an Animation}
-\begin{lstlisting}
+\begin{minted}{matlab}
 f = figure;
 set(f, 'Visible', 'on');
 video = VideoWriter('video.avi');   % create video object
@@ -228,36 +227,36 @@ for i = 1:length(x)                 % iterate through each frame
 end
 hold off                            % use if hold on was used
 close(video);                       % close the file
-\end{lstlisting}
+\end{minted}
 \section*{Sound Processing}
 \subsection*{Create pure tone}
-\begin{lstlisting}
+\begin{minted}{matlab}
 f = 523.251;                        % frequency of note
 Fs = 8192;                          % sampling rate
 l = 1;                              % length of tone [s]
 t = 0: 1 / Fs : l;                  % vector of evenly-spaced times to sample at
 y = sin(2 * pi * f * t);            % sine wave sampled at t
-\end{lstlisting}
+\end{minted}
 \subsection*{Processing sounds}
-\begin{lstlisting}
+\begin{minted}{matlab}
 [y1 + y2]                           % combine y1 and y2 (must be the same dimension)
 [y1; y2]                            % append y2 after y1
-soundsc(y, Fs)                      % play sound 
+soundsc(y, Fs)                      % play sound
 resample(y, Fs, Q)                  % resample sound at the new sampling rate: Fs / Q
 Fs / 2                              % half speed
 Fs * 2                              % double speed
 audiowrite('audio.wav', y, Fs)      % write sound to audio.wav
-\end{lstlisting}
+\end{minted}
 Let \(y\) be a column vector
-\begin{lstlisting}
+\begin{minted}{matlab}
 duration = length(y) / Fs;                  % duration of sound [s]
 % equivalent methods for defining a time vector
 t = 0 : 1 / Fs : duration;                  % using the colon operator
 t = linspace(0, duration, length(y) + 1);   % using the linspace function
-\end{lstlisting}
+\end{minted}
 \section*{Random Walks}
 \subsection*{Initialisation}
-\begin{lstlisting}
+\begin{minted}{matlab}
 M = 50;                                             % number of particles
 N = 200;                                            % number of steps
 delta = 1;                                          % size of step
@@ -266,26 +265,26 @@ A = zeros(N + 1, M);                                % initialise particles at ze
 for i = 1:N                                         % iterate through each step
     r = rand(1, M);                                 % random probability for each particle
     leftMask = r < p;                               % mask left-moving particles
-    A(i + 1, leftMask) = A(i, leftMask) - delta;    % move leftMask left    
+    A(i + 1, leftMask) = A(i, leftMask) - delta;    % move leftMask left
     A(i + 1, ~leftMask) = A(i, ~leftMask) + delta;  % move ~leftMask right
 end
-\end{lstlisting}
+\end{minted}
 Animated Step vs Position Plot
-\begin{lstlisting}
+\begin{minted}{matlab}
 p = plot(A(1:2, :), '.-');                  % create plot object
 L = max(abs(A(:)));                         % maximum distance reached
 axis([0 N -L L]);                           % set axis bounds
 for i = 1:N                                 % iterate through each step
     for j = 1:M                             % iterate through each particle
         p(j).YData = A(1:i, j);             % update plot object data
-        hold on                             % hold until all particles trees have been plotted 
+        hold on                             % hold until all particles trees have been plotted
     end
     hold off                                % hold off for next iteration
     drawnow                                 % update figure
 end
-\end{lstlisting}
+\end{minted}
 1D Animated Position Plot
-\begin{lstlisting}
+\begin{minted}{matlab}
 p = plot(A(1, :), zeros(1, M), '.');        % create plot object
 L = max(abs(A(:)));                         % maximum distance reached
 axis([-L L -1 1]);                          % set axis bounds
@@ -293,9 +292,9 @@ for i = 1:N                                 % iterate through each step
     p.XData = A(i, :);                      % update plot object data
     drawnow                                 % update figure
 end
-\end{lstlisting}
+\end{minted}
 \section*{Cellular Automata}
-\begin{lstlisting}
+\begin{minted}{matlab}
 C = 100;                                        % number of cells
 N = 50;                                         % number of steps
 A = false(N + 1, C);                            % initialise all positions to be empty
@@ -304,7 +303,7 @@ A(1, :) = rand(1, C) > 0.5;                     % use random initial state
 A(1, :) = [...];                                % length of row vector must be C
 for i = 1:N                                     % iterate through each step
     P = A(i, :)                                 % centre cells
-    % Wrap-around ghost boundary cell 
+    % Wrap-around ghost boundary cell
     L = [P(C), P(1:C - 1)];
     R = [P(2:C), P(1)];
     % Dead boundary cell
@@ -323,5 +322,5 @@ for i = 1:N                                     % iterate through each step
     A(i + 1, liveMask) = 1;                     % set live cells for next generation
 end
 imshow(~A, 'InitialMagnification', 'Fit');      % Display black live cells
-\end{lstlisting}
+\end{minted}
 \end{document}
